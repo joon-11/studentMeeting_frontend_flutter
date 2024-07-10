@@ -2,18 +2,34 @@ import 'package:flutter/material.dart';
 import 'package:http/http.dart';
 
 import 'network/apiservice/api_service.dart';
-import 'network/rapository/repository_service.dart';
-import 'network/rapository/repository_service_impl.dart';
+import 'network/repository/repository_service.dart';
+import 'network/repository/repository_service_impl.dart';
 import 'network/result.dart';
 
-void main() async{
+void main() async {
+  WidgetsFlutterBinding.ensureInitialized();
   runApp(MyApp());
-  final ApiServiceRepository _apiServiceRepository =
-  ApiServiceRepositoryImpl();
-  final Result result =
-  await _apiServiceRepository.getTeacherProfile();
-  print(result);
+
+  final ApiServiceRepository _apiServiceRepository = ApiServiceRepositoryImpl();
+
+  // Test getTeacherProfile
+  final Result<String> resultProfile = await _apiServiceRepository.getTeacherProfile();
+  print(resultProfile);
+
+  // Test getReserve
+  final Result<String> resultReserve = await _apiServiceRepository.getReserve();
+  print(resultReserve);
+
+  // Test postReserve
+  final Result<String> resultPostReserve = await _apiServiceRepository.postReserve("2024-01-01 12:00:01", 2);
+  print(resultPostReserve);
+
+  // Test postCancel
+  final Result<String> resultPostCancel = await _apiServiceRepository.postCancel("2024-01-01 12:00:01", 3);
+  print(resultPostCancel);
 }
+
+
 
 class MyApp extends StatelessWidget {
    MyApp({super.key});
