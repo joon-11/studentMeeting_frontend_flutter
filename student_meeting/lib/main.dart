@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:http/http.dart';
+import 'package:student_meeting/model/profileModel.dart';
 
 import 'network/apiservice/api_service.dart';
 import 'network/repository/repository_service.dart';
@@ -13,7 +14,7 @@ void main() async {
   final ApiServiceRepository _apiServiceRepository = ApiServiceRepositoryImpl();
 
   // Test getTeacherProfile
-  final Result<String> resultProfile = await _apiServiceRepository.getTeacherProfile();
+  final Result<List<ProfileModel>> resultProfile = await _apiServiceRepository.getTeacherProfile();
   print(resultProfile);
 
   // Test getReserve
