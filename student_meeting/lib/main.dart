@@ -18,7 +18,7 @@ void main() async {
   print(resultProfile);
 
   // Test getReserve
-  final Result<String> resultReserve = await _apiServiceRepository.getReserve();
+  final Result<List<ProfileModel>> resultReserve = await _apiServiceRepository.getReserve();
   print(resultReserve);
 
   // Test postReserve

@@ -27,12 +27,14 @@ class ApiServiceRepositoryImpl implements ApiServiceRepository {
   }
 
   @override
-  Future<Result<String>> getReserve() async {
+  Future<Result<List<ProfileModel>>> getReserve() async {
     final Result<Response> result = await _api.getReserve();
 
     if (result is Success) {
       final response = (result as Success).data;
       if (response.statusCode == 200) {
+        List<dynamic> jsonData = jsonDecode(utf8.decode(response.bodyBytes));
+        print(jsonData);
         return Result.success(response.body);
       } else {
         return Result.error('Error: ${response.statusCode}');
