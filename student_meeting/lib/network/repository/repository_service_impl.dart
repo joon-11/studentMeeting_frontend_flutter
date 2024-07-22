@@ -17,7 +17,8 @@ class ApiServiceRepositoryImpl implements ApiServiceRepository {
       if (response.statusCode == 200) {
         List<dynamic> jsonData = jsonDecode(utf8.decode(response.bodyBytes));
         print(jsonData);
-        return Result.success(response.body);
+        List<ProfileModel> profiles = jsonData.map((item) => ProfileModel.fromJson(item)).toList();
+        return Result.success(profiles);
       } else {
         return Result.error('Error: ${response.statusCode}');
       }
@@ -35,7 +36,8 @@ class ApiServiceRepositoryImpl implements ApiServiceRepository {
       if (response.statusCode == 200) {
         List<dynamic> jsonData = jsonDecode(utf8.decode(response.bodyBytes));
         print(jsonData);
-        return Result.success(response.body);
+        List<ProfileModel> profiles = jsonData.map((item) => ProfileModel.fromJson(item)).toList();
+        return Result.success(profiles);
       } else {
         return Result.error('Error: ${response.statusCode}');
       }

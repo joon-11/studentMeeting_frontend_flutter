@@ -21,13 +21,13 @@ void main() async {
   final Result<List<ProfileModel>> resultReserve = await _apiServiceRepository.getReserve();
   print(resultReserve);
 
-  // Test postReserve
-  final Result<String> resultPostReserve = await _apiServiceRepository.postReserve("2024-01-01 12:00:01", 2);
-  print(resultPostReserve);
-
-  // Test postCancel
-  final Result<String> resultPostCancel = await _apiServiceRepository.postCancel("2024-01-01 12:00:01", 3);
-  print(resultPostCancel);
+  // // Test postReserve
+  // final Result<String> resultPostReserve = await _apiServiceRepository.postReserve("2024-01-01 12:00:01", 2);
+  // print(resultPostReserve);
+  //
+  // // Test postCancel
+  // final Result<String> resultPostCancel = await _apiServiceRepository.postCancel("2024-01-01 12:00:01", 3);
+  // print(resultPostCancel);
 }
 
 
