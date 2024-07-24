@@ -35,7 +35,6 @@ class ApiServiceRepositoryImpl implements ApiServiceRepository {
       final response = (result as Success).data;
       if (response.statusCode == 200) {
         List<dynamic> jsonData = jsonDecode(utf8.decode(response.bodyBytes));
-        print(jsonData);
         List<ProfileModel> profiles = jsonData.map((item) => ProfileModel.fromJson(item)).toList();
         return Result.success(profiles);
       } else {

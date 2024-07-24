@@ -12,6 +12,7 @@ class MainViewModel with ChangeNotifier {
   bool _fetchCompleted = false;
   String _errorCode = "";
   bool _disposed = false;
+  List<ProfileModel> get profileList => _teacherProfileList;
 
   MainViewModel() {
     _fetch();
@@ -30,6 +31,7 @@ class MainViewModel with ChangeNotifier {
     = await _apiServiceRepository.getTeacherProfile();
     if (result is Success) {
       _teacherProfileList = (result as Success).data;
+      print(_teacherProfileList);
     } else {
       _errorCode = (result as Error).message;
       if (_errorCode == '3') {
