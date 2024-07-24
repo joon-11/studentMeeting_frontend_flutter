@@ -1,14 +1,36 @@
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 import 'package:http/http.dart';
 import 'package:provider/provider.dart';
 import 'package:student_meeting/model/profileModel.dart';
 import 'package:student_meeting/view/screen/main_screen.dart';
+import 'package:student_meeting/view/screen/profile_detail.dart';
 import 'package:student_meeting/viewmodel/mainViewModel.dart';
 
 import 'network/apiservice/api_service.dart';
 import 'network/repository/repository_service.dart';
 import 'network/repository/repository_service_impl.dart';
 import 'network/result.dart';
+
+// final GoRouter _router = GoRouter(
+//   routes: <RouteBase>[
+//     GoRoute(
+//       path: '/',
+//       builder: (BuildContext context, GoRouterState state) {
+//         return const MainScreen();
+//       },
+//       routes: <RouteBase>[
+//         GoRoute(
+//           path: 'profileDetail',
+//           builder: (BuildContext context, GoRouterState state) {
+//             return const ProfileDetail();
+//           },
+//         ),
+//       ],
+//     ),
+//   ],
+// );
+
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();

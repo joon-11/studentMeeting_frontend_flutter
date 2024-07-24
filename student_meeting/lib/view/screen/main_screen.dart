@@ -4,8 +4,10 @@ import 'dart:typed_data';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:student_meeting/model/profileModel.dart';
+import 'package:student_meeting/view/screen/profile_detail.dart';
 import '../../viewmodel/mainViewModel.dart';
 import 'package:provider/provider.dart';
+import 'package:go_router/go_router.dart';
 
 class MainScreen extends StatelessWidget {
   const MainScreen({super.key});
@@ -20,7 +22,8 @@ class MainScreen extends StatelessWidget {
 
 class ProfileListScreen extends StatelessWidget {
   final List<ProfileModel> profiles;
-  const ProfileListScreen({
+
+  ProfileListScreen({
     Key? key,
     required this.profiles,
   }) : super(key: key);
@@ -58,6 +61,16 @@ class ProfileListScreen extends StatelessWidget {
                 ),
               ),
               trailing: const Icon(Icons.arrow_forward_ios),
+              onTap: () {
+                print(index);
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) => ProfileDetail(index: index),
+                  ),
+                );
+              },
+
             ),
           );
         },
