@@ -12,26 +12,6 @@ import 'network/repository/repository_service.dart';
 import 'network/repository/repository_service_impl.dart';
 import 'network/result.dart';
 
-// final GoRouter _router = GoRouter(
-//   routes: <RouteBase>[
-//     GoRoute(
-//       path: '/',
-//       builder: (BuildContext context, GoRouterState state) {
-//         return const MainScreen();
-//       },
-//       routes: <RouteBase>[
-//         GoRoute(
-//           path: 'profileDetail',
-//           builder: (BuildContext context, GoRouterState state) {
-//             return const ProfileDetail();
-//           },
-//         ),
-//       ],
-//     ),
-//   ],
-// );
-
-
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   runApp(MyApp());
@@ -40,11 +20,11 @@ void main() async {
 
   // Test getTeacherProfile
   final Result<List<ProfileModel>> resultProfile =
-      await _apiServiceRepository.getTeacherProfile();
+  await _apiServiceRepository.getTeacherProfile();
   print(resultProfile);
   // Test getReserve
   final Result<List<ProfileModel>> resultReserve =
-      await _apiServiceRepository.getReserve();
+  await _apiServiceRepository.getReserve();
 
   // // Test postReserve
   // final Result<String> resultPostReserve = await _apiServiceRepository.postReserve("2024-01-01 12:00:01", 2);
@@ -55,18 +35,62 @@ void main() async {
   // print(resultPostCancel);
 }
 
-
-
 class MyApp extends StatelessWidget {
   MyApp({super.key});
 
-  // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
     return ChangeNotifierProvider(
       create: (BuildContext context) => MainViewModel(),
       child: MaterialApp(
-        home: MainScreen(),
+        home: MainScreenWithBottomNavBar(),
+      ),
+    );
+  }
+}
+
+class MainScreenWithBottomNavBar extends StatefulWidget {
+  @override
+  _MainScreenWithBottomNavBarState createState() => _MainScreenWithBottomNavBarState();
+}
+
+class _MainScreenWithBottomNavBarState extends State<MainScreenWithBottomNavBar> {
+  int _selectedIndex = 1;
+
+  static const List<Widget> _widgetOptions = <Widget>[
+    Text('1'),
+    MainScreen(),
+    Text('3'),
+  ];
+
+  void _onItemTapped(int index) {
+    setState(() {
+      _selectedIndex = index;
+    });
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      body: _widgetOptions.elementAt(_selectedIndex),
+      bottomNavigationBar: BottomNavigationBar(
+        items: const <BottomNavigationBarItem>[
+          BottomNavigationBarItem(
+            icon: Icon(Icons.home),
+            label: 'Home',
+          ),
+          BottomNavigationBarItem(
+            icon: Icon(Icons.search),
+            label: '선생님 찾기',
+          ),
+          BottomNavigationBarItem(
+            icon: Icon(Icons.date_range_outlined),
+            label: '내 상담 일정',
+          ),
+        ],
+        currentIndex: _selectedIndex,
+        selectedItemColor: Colors.amber[800],
+        onTap: _onItemTapped,
       ),
     );
   }
