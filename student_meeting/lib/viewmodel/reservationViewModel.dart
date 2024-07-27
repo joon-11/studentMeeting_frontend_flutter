@@ -6,33 +6,35 @@ import '../network/repository/repository_service.dart';
 import '../network/repository/repository_service_impl.dart';
 import '../network/result.dart';
 
-class MainViewModel with ChangeNotifier {
+class ReservationViewModel with ChangeNotifier {
   final ApiServiceRepository _apiServiceRepository =
   ApiServiceRepositoryImpl();
-  List<ProfileModel> _teacherProfileList = [];
+  List<ReservationModel> _ReservationCheck = [];
   bool _fetchCompleted = false;
   String _errorCode = "";
   bool _disposed = false;
-  List<ProfileModel> get profileList => _teacherProfileList;
+  List<ReservationModel> get reservationList => _ReservationCheck;
 
-  MainViewModel() {
+  ReservationViewModel() {
     _fetch();
   }
 
   Future<void> _fetch() async {
     _fetchCompleted = false;
     _notifyListeners();
-    await _loadProfile();
+    await _loadReservation();
     _fetchCompleted = true;
     _notifyListeners();
   }
 
-  Future<void> _loadProfile() async {
+
+
+  Future<void> _loadReservation() async {
     final Result<List<ProfileModel>> result
-    = await _apiServiceRepository.getTeacherProfile();
+    = await _apiServiceRepository.getReserve();
     if (result is Success) {
-      _teacherProfileList = (result as Success).data;
-      print(_teacherProfileList);
+      _ReservationCheck = (result as Success).data;
+      print(_ReservationCheck);
     } else {
       _errorCode = (result as Error).message;
       if (_errorCode == '3') {
@@ -40,10 +42,9 @@ class MainViewModel with ChangeNotifier {
       } else {
         print(_errorCode);
       }
-      _teacherProfileList = [];
+      _ReservationCheck = [];
     }
   }
-
 
   void _notifyListeners() {
     if (!_disposed) {

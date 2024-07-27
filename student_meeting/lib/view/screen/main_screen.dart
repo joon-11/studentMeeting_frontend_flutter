@@ -23,7 +23,7 @@ class MainScreen extends StatelessWidget {
 class ProfileListScreen extends StatelessWidget {
   final List<ProfileModel> profiles;
 
-  ProfileListScreen({
+  const ProfileListScreen({
     Key? key,
     required this.profiles,
   }) : super(key: key);
@@ -62,7 +62,7 @@ class ProfileListScreen extends StatelessWidget {
               ),
               trailing: const Icon(Icons.arrow_forward_ios),
               onTap: () {
-                print(index);
+                // context.push('/profileDetail/$index');
                 Navigator.push(
                   context,
                   MaterialPageRoute(
@@ -70,7 +70,6 @@ class ProfileListScreen extends StatelessWidget {
                   ),
                 );
               },
-
             ),
           );
         },

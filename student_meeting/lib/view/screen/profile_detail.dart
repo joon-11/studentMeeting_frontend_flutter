@@ -1,6 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:student_meeting/view/screen/reservation_screen.dart';
 
 import '../../model/profileModel.dart';
 import '../../viewmodel/mainViewModel.dart';
@@ -8,7 +9,10 @@ import '../../viewmodel/mainViewModel.dart';
 class ProfileDetail extends StatelessWidget {
   final int index;
 
-  const ProfileDetail({super.key, required this.index});
+   ProfileDetail(
+     {
+    super.key,required this.index
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -100,7 +104,11 @@ class ProfileListDetail extends StatelessWidget {
             ),
             ElevatedButton(
               onPressed: () {
-                print('예약하기 button pressed');
+                Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => ReservationScreen(profile: profile,),
+                    ));
               },
               style: ButtonStyle(
                 backgroundColor: WidgetStateProperty.all<Color>(

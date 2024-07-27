@@ -3,9 +3,11 @@ import 'package:go_router/go_router.dart';
 import 'package:http/http.dart';
 import 'package:provider/provider.dart';
 import 'package:student_meeting/model/profileModel.dart';
+import 'package:student_meeting/route/router.dart';
 import 'package:student_meeting/view/screen/main_screen.dart';
 import 'package:student_meeting/view/screen/profile_detail.dart';
 import 'package:student_meeting/viewmodel/mainViewModel.dart';
+import 'package:student_meeting/viewmodel/reservationViewModel.dart';
 
 import 'network/apiservice/api_service.dart';
 import 'network/repository/repository_service.dart';
@@ -40,25 +42,27 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return ChangeNotifierProvider(
-      create: (BuildContext context) => MainViewModel(),
-      child: MaterialApp(
-        home: MainScreenWithBottomNavBar(),
+    return MultiProvider(
+      providers: [
+        ChangeNotifierProvider(create: (context) => MainViewModel()),
+        ChangeNotifierProvider(create: (context) => ReservationViewModel()),
+      ],
+      child: MaterialApp.router(
+        debugShowCheckedModeBanner: false,
+        routerConfig: router, // Ensure this is properly defined
       ),
     );
   }
 }
-
 class MainScreenWithBottomNavBar extends StatefulWidget {
   @override
   _MainScreenWithBottomNavBarState createState() => _MainScreenWithBottomNavBarState();
 }
 
 class _MainScreenWithBottomNavBarState extends State<MainScreenWithBottomNavBar> {
-  int _selectedIndex = 1;
+  int _selectedIndex = 0;
 
   static const List<Widget> _widgetOptions = <Widget>[
-    Text('1'),
     MainScreen(),
     Text('3'),
   ];
@@ -75,10 +79,6 @@ class _MainScreenWithBottomNavBarState extends State<MainScreenWithBottomNavBar>
       body: _widgetOptions.elementAt(_selectedIndex),
       bottomNavigationBar: BottomNavigationBar(
         items: const <BottomNavigationBarItem>[
-          BottomNavigationBarItem(
-            icon: Icon(Icons.home),
-            label: 'Home',
-          ),
           BottomNavigationBarItem(
             icon: Icon(Icons.search),
             label: '선생님 찾기',
