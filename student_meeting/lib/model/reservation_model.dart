@@ -2,7 +2,7 @@ class ReservationModel {
   final int? r_no;
   final String? time;
   final String? confirm;
-  final String? reserve_p;
+  final int? reserve_p;
 
   const ReservationModel({
     required this.r_no,

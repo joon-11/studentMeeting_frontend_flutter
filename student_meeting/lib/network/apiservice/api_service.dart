@@ -21,6 +21,7 @@ class ApiService {
     final url = Uri.parse('$apiUrl/api/reserveConfirm');
     try {
       final response = await http.get(url);
+      print(response);
       return Result.success(response);
     } catch (err) {
       print(err);

@@ -20,8 +20,8 @@ class _ReservationScreenState extends State<ReservationScreen> {
   @override
   Widget build(BuildContext context) {
     final viewModel = Provider.of<ReservationViewModel>(context);
-
-    return ReservationListScreen(profile: widget.profile, schedual: viewModel.reservationList);
+    print(viewModel.reservationList);
+    return ReservationListScreen(profile: widget.profile, schedule: viewModel.reservationList);
   }
 }
 
@@ -29,9 +29,9 @@ class _ReservationScreenState extends State<ReservationScreen> {
 
 class ReservationListScreen extends StatefulWidget {
   final dynamic profile;
-  final List<ReservationModel> schedual;
+  final List<ReservationModel> schedule;
 
-  const ReservationListScreen({super.key, required this.profile, required this.schedual});
+  const ReservationListScreen({super.key, required this.profile, required this.schedule});
 
   @override
   State<ReservationListScreen> createState() => _ReservationListScreen();
@@ -93,27 +93,32 @@ class _ReservationListScreen extends State<ReservationListScreen> {
     return Scaffold(
       body: SafeArea(
         child: SingleChildScrollView(
-          child: DateTimePicker(
-            initialSelectedDate: dt,
-            startDate: dt,
-            endDate: dt.add(const Duration(days: 60)),
-            startTime: DateTime(dt.year, dt.month, dt.day, 6),
-            endTime: DateTime(dt.year, dt.month, dt.day, 18),
-            timeInterval: const Duration(minutes: 15),
-            datePickerTitle: 'Pick your preferred date',
-            timePickerTitle: 'Pick your preferred time',
-            timeOutOfRangeError: '참여 가능 시간이 없습니다.',
-            is24h: false,
-            onDateChanged: (date) {
-              setState(() {
-                _d1 = formatDate(date);
-              });
-            },
-            onTimeChanged: (time) {
-              setState(() {
-                _t1 = formatTime(time);
-              });
-            },
+          child: Column(
+            children: [
+              Text("${widget.schedule[0].r_no}"),
+              DateTimePicker(
+                initialSelectedDate: dt,
+                startDate: dt,
+                endDate: dt.add(const Duration(days: 60)),
+                startTime: DateTime(dt.year, dt.month, dt.day, 6),
+                endTime: DateTime(dt.year, dt.month, dt.day, 18),
+                timeInterval: const Duration(minutes: 15),
+                datePickerTitle: 'Pick your preferred date',
+                timePickerTitle: 'Pick your preferred time',
+                timeOutOfRangeError: '참여 가능 시간이 없습니다.',
+                is24h: false,
+                onDateChanged: (date) {
+                  setState(() {
+                    _d1 = formatDate(date);
+                  });
+                },
+                onTimeChanged: (time) {
+                  setState(() {
+                    _t1 = formatTime(time);
+                  });
+                },
+              ),
+            ],
           ),
         ),
       ),

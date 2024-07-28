@@ -30,7 +30,7 @@ class ReservationViewModel with ChangeNotifier {
 
 
   Future<void> _loadReservation() async {
-    final Result<List<ProfileModel>> result
+    final Result<List<ReservationModel>> result
     = await _apiServiceRepository.getReserve();
     if (result is Success) {
       _ReservationCheck = (result as Success).data;

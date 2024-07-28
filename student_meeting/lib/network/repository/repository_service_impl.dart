@@ -1,6 +1,7 @@
 import 'dart:convert';
 import 'package:http/http.dart';
 import 'package:student_meeting/model/profileModel.dart';
+import 'package:student_meeting/model/reservation_model.dart';
 import 'package:student_meeting/network/repository/repository_service.dart';
 import 'package:student_meeting/network/result.dart';
 import '../apiservice/api_service.dart';
@@ -28,15 +29,15 @@ class ApiServiceRepositoryImpl implements ApiServiceRepository {
   }
 
   @override
-  Future<Result<List<ProfileModel>>> getReserve() async {
+  Future<Result<List<ReservationModel>>> getReserve() async {
     final Result<Response> result = await _api.getReserve();
 
     if (result is Success) {
       final response = (result as Success).data;
       if (response.statusCode == 200) {
         List<dynamic> jsonData = jsonDecode(utf8.decode(response.bodyBytes));
-        List<ProfileModel> profiles = jsonData.map((item) => ProfileModel.fromJson(item)).toList();
-        return Result.success(profiles);
+        List<ReservationModel> schedule = jsonData.map((item) => ReservationModel.fromJson(item)).toList();
+        return Result.success(schedule);
       } else {
         return Result.error('Error: ${response.statusCode}');
       }
