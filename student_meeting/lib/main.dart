@@ -7,6 +7,7 @@ import 'package:student_meeting/model/reservation_model.dart';
 import 'package:student_meeting/route/router.dart';
 import 'package:student_meeting/view/screen/main_screen.dart';
 import 'package:student_meeting/view/screen/profile_detail.dart';
+import 'package:student_meeting/view/screen/schedule_screen.dart';
 import 'package:student_meeting/viewmodel/mainViewModel.dart';
 import 'package:student_meeting/viewmodel/reservationViewModel.dart';
 
@@ -66,7 +67,7 @@ class _MainScreenWithBottomNavBarState extends State<MainScreenWithBottomNavBar>
 
   static const List<Widget> _widgetOptions = <Widget>[
     MainScreen(),
-    Text('3'),
+    ScheduleScreen(),
   ];
 
   void _onItemTapped(int index) {

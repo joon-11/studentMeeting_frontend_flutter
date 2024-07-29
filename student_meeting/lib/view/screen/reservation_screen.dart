@@ -1,3 +1,4 @@
+import 'package:booking_calendar/booking_calendar.dart';
 import 'package:date_time_picker_widget/date_time_picker_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
@@ -5,7 +6,6 @@ import 'package:student_meeting/model/reservation_model.dart';
 import 'package:student_meeting/viewmodel/reservationViewModel.dart';
 
 import '../../viewmodel/mainViewModel.dart';
-
 
 class ReservationScreen extends StatefulWidget {
   final dynamic profile;
@@ -21,111 +21,133 @@ class _ReservationScreenState extends State<ReservationScreen> {
   Widget build(BuildContext context) {
     final viewModel = Provider.of<ReservationViewModel>(context);
     print(viewModel.reservationList);
-    return ReservationListScreen(profile: widget.profile, schedule: viewModel.reservationList);
+    return ReservationListScreen(
+        profile: widget.profile, schedule: viewModel.reservationList);
   }
 }
-
-
 
 class ReservationListScreen extends StatefulWidget {
   final dynamic profile;
   final List<ReservationModel> schedule;
 
-  const ReservationListScreen({super.key, required this.profile, required this.schedule});
+  const ReservationListScreen(
+      {super.key, required this.profile, required this.schedule});
 
   @override
   State<ReservationListScreen> createState() => _ReservationListScreen();
 }
 
+class BookingCalendarDemoApp extends StatefulWidget {
+  const BookingCalendarDemoApp({Key? key}) : super(key: key);
 
+  @override
+  State<BookingCalendarDemoApp> createState() => _BookingCalendarDemoAppState();
+}
 
-class _ReservationListScreen extends State<ReservationListScreen> {
-  String _d1 = '';
-  String _t1 = '';
+class _BookingCalendarDemoAppState extends State<BookingCalendarDemoApp> {
+  final now = DateTime.now();
+  late BookingService mockBookingService;
 
-  String formatDate(DateTime date) {
-    return '${date.day.toString().padLeft(2, '0')} '
-        '${_getMonthName(date.month)}, '
-        '${date.year}';
+  @override
+  void initState() {
+    super.initState();
+    // DateTime.now().startOfDay
+    // DateTime.now().endOfDay
+    mockBookingService = BookingService(
+        serviceName: 'Mock Service',
+        serviceDuration: 30,
+        bookingEnd: DateTime(now.year, now.month, now.day, 18, 0),
+        bookingStart: DateTime(now.year, now.month, now.day, 8, 0));
   }
 
-  String formatTime(DateTime time) {
-    final hours = time.hour % 12 == 0 ? 12 : time.hour % 12;
-    final minutes = time.minute.toString().padLeft(2, '0');
-    final period = time.hour >= 12 ? 'PM' : 'AM';
-    return '${hours.toString().padLeft(2, '0')}:$minutes $period';
+  Stream<dynamic>? getBookingStreamMock(
+      {required DateTime end, required DateTime start}) {
+    return Stream.value([]);
   }
 
-  String _getMonthName(int month) {
-    switch (month) {
-      case 1:
-        return 'Jan';
-      case 2:
-        return 'Feb';
-      case 3:
-        return 'Mar';
-      case 4:
-        return 'Apr';
-      case 5:
-        return 'May';
-      case 6:
-        return 'Jun';
-      case 7:
-        return 'Jul';
-      case 8:
-        return 'Aug';
-      case 9:
-        return 'Sep';
-      case 10:
-        return 'Oct';
-      case 11:
-        return 'Nov';
-      case 12:
-        return 'Dec';
-      default:
-        return '';
-    }
+  Future<dynamic> uploadBookingMock(
+      {required BookingService newBooking}) async {
+    await Future.delayed(const Duration(seconds: 1));
+    converted.add(DateTimeRange(
+        start: newBooking.bookingStart, end: newBooking.bookingEnd));
+    print('${newBooking.toJson()} has been uploaded');
+  }
+
+  List<DateTimeRange> converted = [];
+
+  List<DateTimeRange> convertStreamResultMock({required dynamic streamResult}) {
+    ///here you can parse the streamresult and convert to [List<DateTimeRange>]
+    ///take care this is only mock, so if you add today as disabledDays it will still be visible on the first load
+    ///disabledDays will properly work with real data
+    DateTime first = now;
+    DateTime tomorrow = now.add(const Duration(days: 1));
+    DateTime second = now.add(const Duration(minutes: 55));
+    DateTime third = now.subtract(const Duration(minutes: 240));
+    DateTime fourth = now.subtract(const Duration(minutes: 500));
+    converted.add(
+        DateTimeRange(start: first, end: now.add(const Duration(minutes: 30))));
+    converted.add(DateTimeRange(
+        start: second, end: second.add(const Duration(minutes: 23))));
+    converted.add(DateTimeRange(
+        start: third, end: third.add(const Duration(minutes: 15))));
+    converted.add(DateTimeRange(
+        start: fourth, end: fourth.add(const Duration(minutes: 50))));
+
+    //book whole day example
+    converted.add(DateTimeRange(
+        start: DateTime(tomorrow.year, tomorrow.month, tomorrow.day, 5, 0),
+        end: DateTime(tomorrow.year, tomorrow.month, tomorrow.day, 23, 0)));
+    return converted;
+  }
+
+  List<DateTimeRange> generatePauseSlots() {
+    return [
+      DateTimeRange(
+          start: DateTime(now.year, now.month, now.day, 12, 0),
+          end: DateTime(now.year, now.month, now.day, 13, 0))
+    ];
   }
 
   @override
   Widget build(BuildContext context) {
+    return MaterialApp(
+        title: 'Booking Calendar Demo',
+        theme: ThemeData(
+          primarySwatch: Colors.blue,
+        ),
+        home: Scaffold(
+          appBar: AppBar(
+            title: const Text('Booking Calendar Demo'),
+          ),
+          body: Center(
+            child: BookingCalendar(
+              bookingService: mockBookingService,
+              convertStreamResultToDateTimeRanges: convertStreamResultMock,
+              getBookingStream: getBookingStreamMock,
+              uploadBooking: uploadBookingMock,
+              pauseSlots: generatePauseSlots(),
+              pauseSlotText: 'LUNCH',
+              hideBreakTime: false,
+              loadingWidget: const Text('Fetching data...'),
+              uploadingWidget: const CircularProgressIndicator(),
+              locale: 'hu_HU',
+              startingDayOfWeek: StartingDayOfWeek.tuesday,
+              wholeDayIsBookedWidget:
+              const Text('Sorry, for this day everything is booked'),
+              //disabledDates: [DateTime(2023, 1, 20)],
+              //disabledDays: [6, 7],
+            ),
+          ),
+        ));
+  }
+}
+
+class _ReservationListScreen extends State<ReservationListScreen> {
+  @override
+  Widget build(BuildContext context) {
     DateTime dt = DateTime.now();
     return Scaffold(
-      body: SafeArea(
-        child: SingleChildScrollView(
-          child: Column(
-            children: [
-              AppBar(
-                title: Text("예약하기"),
-              ),
-              DateTimePicker(
-                initialSelectedDate: dt,
-                startDate: dt,
-                endDate: dt.add(const Duration(days: 60)),
-                startTime: DateTime(dt.year, dt.month, dt.day, 6),
-                endTime: DateTime(dt.year, dt.month, dt.day, 18),
-                timeInterval: const Duration(minutes: 15),
-                datePickerTitle: '날짜',
-                timePickerTitle: '시간',
-                timeOutOfRangeError: '참여 가능 시간이 없습니다.',
-                is24h: false,
-                onDateChanged: (date) {
-                  setState(() {
-                    _d1 = formatDate(date);
-                    print(date);
-                  });
-                },
-                onTimeChanged: (time) {
-                  setState(() {
-                    _t1 = formatTime(time);
-                    print(_t1);
-                  });
-                },
-              ),
-            ],
-          ),
-        ),
-      ),
+      body: BookingCalendarDemoApp(),
     );
   }
 }
