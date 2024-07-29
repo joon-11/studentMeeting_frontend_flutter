@@ -57,6 +57,13 @@ dev_dependencies:
 
 # The following section is specific to Flutter packages.
 flutter:
+  assets:
+    - lib/images/루피.webp
+    - lib/images/조로.webp
+    - lib/images/나미.webp
+    - lib/images/상디.jpeg
+    - lib/images/쵸파.webp
+    - lib/images/우솝.webp
 
   # The following line ensures that the Material Icons font is
   # included with your application, so that you can use the icons in

@@ -38,14 +38,22 @@ class ProfileListScreen extends StatelessWidget {
         itemCount: profiles.length,
         itemBuilder: (context, index) {
           final ProfileModel profile = profiles[index];
+          List photo = [
+            'lib/images/루피.webp',
+            'lib/images/조로.webp',
+            'lib/images/나미.webp',
+            'lib/images/우솝.webp',
+            'lib/images/상디.jpeg',
+            'lib/images/쵸파.webp'
+          ];
           return Card(
             margin: const EdgeInsets.symmetric(vertical: 8, horizontal: 16),
             child: ListTile(
               contentPadding: const EdgeInsets.all(16),
-              leading: const CircleAvatar(
+              leading: CircleAvatar(
                 radius: 30,
                 backgroundColor: CupertinoColors.inactiveGray,
-                //사진
+                backgroundImage: AssetImage(photo[index]),
               ),
               title: Text(
                 profile.t_name!,
@@ -66,7 +74,10 @@ class ProfileListScreen extends StatelessWidget {
                 Navigator.push(
                   context,
                   MaterialPageRoute(
-                    builder: (context) => ProfileDetail(index: index),
+                    builder: (context) => ProfileDetail(
+                      index: index,
+                      photo: photo[index],
+                    ),
                   ),
                 );
               },

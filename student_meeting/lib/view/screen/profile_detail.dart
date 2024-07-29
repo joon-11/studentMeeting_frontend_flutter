@@ -9,22 +9,27 @@ import '../../viewmodel/mainViewModel.dart';
 class ProfileDetail extends StatelessWidget {
   final int index;
 
-   ProfileDetail(
-     {
-    super.key,required this.index
-  });
+  String photo;
+
+  ProfileDetail({super.key, required this.index, required this.photo});
 
   @override
   Widget build(BuildContext context) {
     final viewModel = Provider.of<MainViewModel>(context);
-    return ProfileListDetail(profile: viewModel.profileList[index]);
+    return ProfileListDetail(
+      profile: viewModel.profileList[index],
+      photo: photo,
+    );
   }
 }
 
 class ProfileListDetail extends StatelessWidget {
   final ProfileModel profile;
 
-  const ProfileListDetail({super.key, required this.profile});
+  final String photo;
+
+  const ProfileListDetail(
+      {super.key, required this.profile, required this.photo});
 
   @override
   Widget build(BuildContext context) {
@@ -37,10 +42,10 @@ class ProfileListDetail extends StatelessWidget {
         child: Column(
           children: [
             const SizedBox(height: 20),
-            const Center(
+            Center(
               child: CircleAvatar(
                 radius: 100,
-                //사진
+                backgroundImage: AssetImage(photo),
                 backgroundColor: CupertinoColors.inactiveGray,
               ),
             ),
@@ -107,7 +112,9 @@ class ProfileListDetail extends StatelessWidget {
                 Navigator.push(
                     context,
                     MaterialPageRoute(
-                      builder: (context) => ReservationScreen(profile: profile,),
+                      builder: (context) => ReservationScreen(
+                        profile: profile,
+                      ),
                     ));
               },
               style: ButtonStyle(

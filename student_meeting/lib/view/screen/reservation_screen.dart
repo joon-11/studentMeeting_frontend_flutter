@@ -95,7 +95,9 @@ class _ReservationListScreen extends State<ReservationListScreen> {
         child: SingleChildScrollView(
           child: Column(
             children: [
-              Text("${widget.schedule[0].r_no}"),
+              AppBar(
+                title: Text("예약하기"),
+              ),
               DateTimePicker(
                 initialSelectedDate: dt,
                 startDate: dt,
@@ -103,18 +105,20 @@ class _ReservationListScreen extends State<ReservationListScreen> {
                 startTime: DateTime(dt.year, dt.month, dt.day, 6),
                 endTime: DateTime(dt.year, dt.month, dt.day, 18),
                 timeInterval: const Duration(minutes: 15),
-                datePickerTitle: 'Pick your preferred date',
-                timePickerTitle: 'Pick your preferred time',
+                datePickerTitle: '날짜',
+                timePickerTitle: '시간',
                 timeOutOfRangeError: '참여 가능 시간이 없습니다.',
                 is24h: false,
                 onDateChanged: (date) {
                   setState(() {
                     _d1 = formatDate(date);
+                    print(date);
                   });
                 },
                 onTimeChanged: (time) {
                   setState(() {
                     _t1 = formatTime(time);
+                    print(_t1);
                   });
                 },
               ),
