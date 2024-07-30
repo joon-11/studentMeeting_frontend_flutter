@@ -99,44 +99,22 @@ class _BookingCalendarDemoAppState extends State<BookingCalendarDemoApp> {
     return schedule;
   }
 
-  // List<DateTimeRange> converted = [];
-  //
-  // List<DateTimeRange> convertStreamResultMock({required dynamic streamResult}) {
-  //   ///here you can parse the streamresult and convert to [List<DateTimeRange>]
-  //   ///take care this is only mock, so if you add today as disabledDays it will still be visible on the first load
-  //   ///disabledDays will properly work with real data
-  //   DateTime first = now;
-  //   DateTime tomorrow = now.add(const Duration(days: 1));
-  //   DateTime second = now.add(const Duration(minutes: 55));
-  //   DateTime third = now.subtract(const Duration(minutes: 240));
-  //   DateTime fourth = now.subtract(const Duration(minutes: 500));
-  //   converted.add(
-  //       DateTimeRange(start: first, end: now.add(const Duration(minutes: 30))));
-  //   converted.add(DateTimeRange(
-  //       start: second, end: second.add(const Duration(minutes: 23))));
-  //   converted.add(DateTimeRange(
-  //       start: third, end: third.add(const Duration(minutes: 15))));
-  //   converted.add(DateTimeRange(
-  //       start: fourth, end: fourth.add(const Duration(minutes: 50))));
-  //
-  //   //book whole day example
-  //   converted.add(DateTimeRange(
-  //       start: DateTime(tomorrow.year, tomorrow.month, tomorrow.day, 5, 0),
-  //       end: DateTime(tomorrow.year, tomorrow.month, tomorrow.day, 23, 0)));
-  //
-  //   return converted;
-  // }
-
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: 'Booking Calendar Demo',
+      title: 'Calendar',
       theme: ThemeData(
         primarySwatch: Colors.blue,
       ),
       home: Scaffold(
         appBar: AppBar(
-          title: const Text('Booking Calendar Demo'),
+          title: const Text('상담 예약'),
+          leading: IconButton(
+            icon: Icon(Icons.arrow_back),
+            onPressed: () {
+              Navigator.pop(context);
+            },
+          ),
         ),
         body: Center(
           child: BookingCalendar(
@@ -148,7 +126,7 @@ class _BookingCalendarDemoAppState extends State<BookingCalendarDemoApp> {
             loadingWidget: const Text('Fetching data...'),
             uploadingWidget: const CircularProgressIndicator(),
             locale: 'ko',
-            startingDayOfWeek: StartingDayOfWeek.tuesday,
+            startingDayOfWeek: StartingDayOfWeek.sunday,
             wholeDayIsBookedWidget:
             const Text('Sorry, for this day everything is booked'),
           ),
