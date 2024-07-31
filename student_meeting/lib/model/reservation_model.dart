@@ -3,12 +3,14 @@ class ReservationModel {
   final String? time;
   final String? confirm;
   final int? reserve_p;
+  final String? lib;
 
   const ReservationModel({
     required this.r_no,
     required this.time,
     required this.confirm,
     required this.reserve_p,
+    required this.lib,
 
   });
 
@@ -18,6 +20,7 @@ class ReservationModel {
       time: json['time'],
       confirm: json['confirm'],
       reserve_p: json['reserve_p'],
+      lib: json['lib'],
     );
   }
 }

@@ -42,6 +42,7 @@ dependencies:
   date_time_picker_widget: ^2.0.0
   time_scheduler_table: ^1.0.0
   booking_calendar: ^1.1.10
+  syncfusion_flutter_calendar: ^26.2.7
 
 dev_dependencies:
   flutter_test:

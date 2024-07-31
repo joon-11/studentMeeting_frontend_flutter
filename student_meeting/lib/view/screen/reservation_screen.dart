@@ -41,15 +41,20 @@ class _ReservationListScreen extends State<ReservationListScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        body: BookingCalendarDemoApp(schedule: widget.schedule,)
-    );
+        body: BookingCalendarDemoApp(
+      schedule: widget.schedule,
+      profile: widget.profile,
+    ));
   }
 }
 
 class BookingCalendarDemoApp extends StatefulWidget {
   final List<ReservationModel> schedule;
+  final dynamic profile;
 
-  const BookingCalendarDemoApp({Key? key, required this.schedule}) : super(key: key);
+  const BookingCalendarDemoApp(
+      {Key? key, required this.schedule, required this.profile})
+      : super(key: key);
 
   @override
   State<BookingCalendarDemoApp> createState() => _BookingCalendarDemoAppState();
@@ -78,9 +83,11 @@ class _BookingCalendarDemoAppState extends State<BookingCalendarDemoApp> {
 
   Stream<List<DateTimeRange>> getBookingStreamMock(
       {required DateTime end, required DateTime start}) async* {
-    List<DateTimeRange> bookedTimes = widget.schedule.map((item) {
+    List<DateTimeRange> bookedTimes = widget.schedule
+        .where((item) => item.lib == widget.profile.t_lib)
+        .map((item) {
       DateTime startTime = DateTime.parse(item.time!).toLocal();
-      DateTime endTime = startTime.add(Duration(hours: 1));
+      DateTime endTime = startTime.add(const Duration(hours: 1));
       return DateTimeRange(start: startTime, end: endTime);
     }).toList();
 
@@ -110,7 +117,7 @@ class _BookingCalendarDemoAppState extends State<BookingCalendarDemoApp> {
         appBar: AppBar(
           title: const Text('상담 예약'),
           leading: IconButton(
-            icon: Icon(Icons.arrow_back),
+            icon: const Icon(Icons.arrow_back),
             onPressed: () {
               Navigator.pop(context);
             },
@@ -128,7 +135,7 @@ class _BookingCalendarDemoAppState extends State<BookingCalendarDemoApp> {
             locale: 'ko',
             startingDayOfWeek: StartingDayOfWeek.sunday,
             wholeDayIsBookedWidget:
-            const Text('Sorry, for this day everything is booked'),
+                const Text('Sorry, for this day everything is booked'),
           ),
         ),
       ),
