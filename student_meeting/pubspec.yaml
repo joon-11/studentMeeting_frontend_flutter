@@ -43,6 +43,7 @@ dependencies:
   time_scheduler_table: ^1.0.0
   booking_calendar: ^1.1.10
   syncfusion_flutter_calendar: ^26.2.7
+  intl: ^0.18.1
 
 dev_dependencies:
   flutter_test:
