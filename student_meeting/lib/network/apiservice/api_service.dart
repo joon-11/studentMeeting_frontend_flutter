@@ -29,10 +29,10 @@ class ApiService {
     }
   }
 
-  Future<Result<Response>> postReserve(String time, int person) async {
+  Future<Result<Response>> postReserve(String time, int person, String lib) async {
     final url = Uri.parse('$apiUrl/api/reserve');
     final headers = {"Content-Type": "application/json"};
-    final body = jsonEncode({"time": time, "person": person});
+    final body = jsonEncode({"time": time, "person": person, "lib": lib});
 
     try {
       final response = await http.post(url, headers: headers, body: body);

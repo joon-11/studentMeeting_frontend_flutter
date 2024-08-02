@@ -47,8 +47,8 @@ class ApiServiceRepositoryImpl implements ApiServiceRepository {
   }
 
   @override
-  Future<Result<String>> postReserve(String time, int person) async {
-    final Result<Response> result = await _api.postReserve(time, person);
+  Future<Result<String>> postReserve(String time, int person, String lib) async {
+    final Result<Response> result = await _api.postReserve(time, person, lib);
 
     if (result is Success) {
       final response = (result as Success).data;

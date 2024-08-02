@@ -4,6 +4,9 @@ import 'package:provider/provider.dart';
 import 'package:student_meeting/model/reservation_model.dart';
 import 'package:student_meeting/viewmodel/reservationViewModel.dart';
 import 'package:intl/date_symbol_data_local.dart';
+import 'package:student_meeting/viewmodel/reservationViewModel.dart';
+import 'package:intl/intl.dart';
+
 
 import '../../viewmodel/mainViewModel.dart';
 
@@ -63,6 +66,8 @@ class BookingCalendarDemoApp extends StatefulWidget {
 class _BookingCalendarDemoAppState extends State<BookingCalendarDemoApp> {
   final now = DateTime.now();
   late BookingService mockBookingService;
+  late ReservationViewModel viewModel;
+
 
   @override
   didChangeDependencies() {
@@ -96,9 +101,15 @@ class _BookingCalendarDemoAppState extends State<BookingCalendarDemoApp> {
 
   Future<dynamic> uploadBookingMock(
       {required BookingService newBooking}) async {
+    String date = DateFormat('yyyy-MM-dd HH:mm:ss').format(newBooking.bookingStart);
+    // 형 변환 후 사용
+    viewModel.insertReservation(date, 1, widget.profile.t_lib);
+
     await Future.delayed(const Duration(seconds: 1));
+
     print('${newBooking.toJson()} has been uploaded');
   }
+
 
   List<DateTimeRange> convertStreamResultMock({required dynamic streamResult}) {
     List<DateTimeRange> schedule = streamResult as List<DateTimeRange>;
@@ -108,6 +119,7 @@ class _BookingCalendarDemoAppState extends State<BookingCalendarDemoApp> {
 
   @override
   Widget build(BuildContext context) {
+    viewModel = Provider.of<ReservationViewModel>(context);
     return MaterialApp(
       title: 'Calendar',
       theme: ThemeData(

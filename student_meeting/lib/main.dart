@@ -32,12 +32,12 @@ void main() async {
   // print(resultReserve);
 
   // // Test postReserve
-  // final Result<String> resultPostReserve = await _apiServiceRepository.postReserve("2024-01-01 12:00:01", 2);
+  // final Result<String> resultPostReserve = await _apiServiceRepository.postReserve("2024-08-02 13:00:01", 1, "");
   // print(resultPostReserve);
-  //
-  // // Test postCancel
-  // final Result<String> resultPostCancel = await _apiServiceRepository.postCancel("2024-01-01 12:00:01", 3);
-  // print(resultPostCancel);
+
+  // Test postCancel
+  final Result<String> resultPostCancel = await _apiServiceRepository.postCancel("2024-01-01 12:00:01", 1);
+  print(resultPostCancel);
 }
 
 class MyApp extends StatelessWidget {

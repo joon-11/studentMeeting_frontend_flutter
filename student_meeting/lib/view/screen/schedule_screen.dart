@@ -45,7 +45,7 @@ class _ShowScheduleState extends State<ShowSchedule> {
           content: Text(message),
           actions: <Widget>[
             TextButton(
-              child: Text("확인"),
+              child: const Text("확인"),
               onPressed: () {
                 Navigator.of(context).pop();
               },
@@ -54,7 +54,7 @@ class _ShowScheduleState extends State<ShowSchedule> {
                 onPressed: () {
                   Navigator.of(context).pop();
                 },
-                child: Text("수업 취소하기"))
+                child: const Text("수업 취소하기"))
           ],
         );
       },
@@ -92,7 +92,7 @@ class _ShowScheduleState extends State<ShowSchedule> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('내 일정', style: TextStyle(color: Colors.white)),
+        title: const Text('내 일정', style: TextStyle(color: Colors.white)),
         backgroundColor: Colors.blueAccent,
         elevation: 0,
       ),
@@ -104,7 +104,7 @@ class _ShowScheduleState extends State<ShowSchedule> {
           final DateFormat formatter = DateFormat('yyyy-MM-dd HH:mm');
           final String formattedStartTime = formatter.format(dateTime);
           final String formattedEndTime =
-              formatter.format(dateTime.add(Duration(hours: 1)));
+              formatter.format(dateTime.add(const Duration(hours: 1)));
 
           return Card(
             margin: const EdgeInsets.symmetric(vertical: 8, horizontal: 16),

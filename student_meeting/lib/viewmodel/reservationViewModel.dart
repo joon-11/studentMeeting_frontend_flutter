@@ -10,6 +10,7 @@ class ReservationViewModel with ChangeNotifier {
   final ApiServiceRepository _apiServiceRepository =
   ApiServiceRepositoryImpl();
   List<ReservationModel> _ReservationCheck = [];
+  List<String> _ReservationInsert = [];
   bool _fetchCompleted = false;
   String _errorCode = "";
   bool _disposed = false;
@@ -35,6 +36,23 @@ class ReservationViewModel with ChangeNotifier {
     if (result is Success) {
       _ReservationCheck = (result as Success).data;
       print(_ReservationCheck);
+    } else {
+      _errorCode = (result as Error).message;
+      if (_errorCode == '3') {
+        print('No data or Failed to fetch data');
+      } else {
+        print(_errorCode);
+      }
+      _ReservationCheck = [];
+    }
+  }
+
+  Future<void> insertReservation(String date, int person, String lib) async {
+    final Result<String> result
+    = await _apiServiceRepository.postReserve(date, person, lib);
+    if (result is Success) {
+      _ReservationCheck.add(ReservationModel(r_no: 100, time: date, confirm: 'y', reserve_p: 1, lib: lib));
+      _notifyListeners();
     } else {
       _errorCode = (result as Error).message;
       if (_errorCode == '3') {
