@@ -17,9 +17,7 @@ class ScheduleScreen extends StatefulWidget {
 class _ScheduleScreenState extends State<ScheduleScreen> {
   @override
   Widget build(BuildContext context) {
-    final viewModelMain = Provider.of<MainViewModel>(context);
     final viewModel = Provider.of<ReservationViewModel>(context);
-    print(viewModel.reservationList);
     return ShowSchedule(
       schedule: viewModel.reservationList,
     );
@@ -28,7 +26,6 @@ class _ScheduleScreenState extends State<ScheduleScreen> {
 
 class ShowSchedule extends StatefulWidget {
   final List<ReservationModel> schedule;
-  late MainViewModel viewModelMain;
 
   ShowSchedule({super.key, required this.schedule});
 
@@ -37,7 +34,10 @@ class ShowSchedule extends StatefulWidget {
 }
 
 class _ShowScheduleState extends State<ShowSchedule> {
-  void showPopup(BuildContext context, String title, String message, String time) {
+  late ReservationViewModel viewModel;
+
+  void showPopup(
+      BuildContext context, String title, String message, String time) {
     showDialog(
       context: context,
       builder: (BuildContext context) {
@@ -53,7 +53,7 @@ class _ShowScheduleState extends State<ShowSchedule> {
             ),
             TextButton(
               onPressed: () {
-                widget.viewModelMain.deleteReservation(time,1);
+                viewModel.deleteReservation(time, 1);
               },
               child: const Text("수업 취소하기"),
             )
@@ -94,9 +94,11 @@ class _ShowScheduleState extends State<ShowSchedule> {
   @override
   Widget build(BuildContext context) {
     final DateTime now = DateTime.now();
+    viewModel = Provider.of<ReservationViewModel>(context);
 
     List<ReservationModel> futureSchedule = widget.schedule
-        .where((reservation) => DateTime.parse(reservation.time!).toLocal().isAfter(now))
+        .where((reservation) =>
+            DateTime.parse(reservation.time!).toLocal().isAfter(now))
         .toList();
 
     // Sort the futureSchedule list by the reservation time
@@ -120,7 +122,7 @@ class _ShowScheduleState extends State<ShowSchedule> {
           final DateFormat formatter = DateFormat('yyyy-MM-dd HH:mm');
           final String formattedStartTime = formatter.format(dateTime);
           final String formattedEndTime =
-          formatter.format(dateTime.add(const Duration(hours: 1)));
+              formatter.format(dateTime.add(const Duration(hours: 1)));
 
           return Card(
             margin: const EdgeInsets.symmetric(vertical: 8, horizontal: 16),
@@ -145,8 +147,11 @@ class _ShowScheduleState extends State<ShowSchedule> {
                 ),
               ),
               onTap: () {
-                showPopup(context, '${profile.lib} 수업 정보',
-                    '시간: $formattedStartTime - $formattedEndTime', formattedStartTime);
+                showPopup(
+                    context,
+                    '${profile.lib} 수업 정보',
+                    '시간: $formattedStartTime - $formattedEndTime',
+                    formattedStartTime);
               },
             ),
           );

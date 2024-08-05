@@ -45,21 +45,6 @@ class MainViewModel with ChangeNotifier {
   }
 
 
-  Future<void> deleteReservation(String date, int person) async {
-    final Result<String> result
-    = await _apiServiceRepository.postCancel(date, person);
-    if (result is Success) {
-      _notifyListeners();
-    } else {
-      _errorCode = (result as Error).message;
-      if (_errorCode == '3') {
-        print('No data or Failed to fetch data');
-      } else {
-        print(_errorCode);
-      }
-    }
-  }
-
 
   void _notifyListeners() {
     if (!_disposed) {

@@ -23,12 +23,12 @@ void main() async {
   final ApiServiceRepository _apiServiceRepository = ApiServiceRepositoryImpl();
 
   // Test getTeacherProfile
-  final Result<List<ProfileModel>> resultProfile =
-  await _apiServiceRepository.getTeacherProfile();
-  // print(resultProfile);
-  // Test getReserve
-  final Result<List<ReservationModel>> resultReserve =
-  await _apiServiceRepository.getReserve();
+  // final Result<List<ProfileModel>> resultProfile =
+  // await _apiServiceRepository.getTeacherProfile();
+  // // print(resultProfile);
+  // // Test getReserve
+  // final Result<List<ReservationModel>> resultReserve =
+  // await _apiServiceRepository.getReserve();
   // print(resultReserve);
 
   // // Test postReserve
@@ -36,7 +36,7 @@ void main() async {
   // print(resultPostReserve);
 
   // Test postCancel
-  final Result<String> resultPostCancel = await _apiServiceRepository.postCancel("2024-01-01 12:00:01", 1);
+  final Result<String> resultPostCancel = await _apiServiceRepository.postCancel("2024-08-07 12:00:00", 1);
   print(resultPostCancel);
 }
 
